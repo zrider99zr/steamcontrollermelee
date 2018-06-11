@@ -26,20 +26,23 @@
 
 from steamcontroller import SteamController
 import sys
+'''
 from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtGui import *
+'''
 import struct
 
 run = True
 def _main():
+    '''
     app = QApplication(sys.argv)
     w = QWidget()
     w.setWindowTitle('Input Display')
     textbox = QLineEdit(w)
     textbox.move(20,20)
     textbox.resize(280,160)
-
-    w.resize(320, 200)
+    '''
+    #w.resize(320, 200)
     imu = {
         'gpitch' : [],
         'groll'  : [],
@@ -57,9 +60,8 @@ def _main():
         s = ""
         for name in imu.keys():
             s += name + " = " + sci._asdict()[name] + "\n"
-        textbox.setText(s)
-
-    app.processEvents()
+        print(s)
+    #app.processEvents()
     sc = SteamController(callback=update)
     sc.handleEvents()
     sc._sendControl(struct.pack('>' + 'I' * 6,
@@ -73,16 +75,15 @@ def _main():
         global run
         run = False
         event.accept()
-
+    '''
     w.closeEvent = closeEvent
     app.processEvents()
-
+'''
     try:
         i = 0
         while run:
             i = i + 1
             sc.handleEvents()
-            app.processEvents()
     except KeyboardInterrupt:
         print("Bye")
 
