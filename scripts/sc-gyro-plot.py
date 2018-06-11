@@ -56,11 +56,9 @@ def _main():
     def update(sc, sci):
         if sci.status != 15361:
             return
-        
-        s = ""
+        print("new")
         for name in imu.keys():
-            s += name + " = " + sci._asdict()[name] + "\n"
-        print(s)
+            print(sci._asdict()[name])
     #app.processEvents()
     sc = SteamController(callback=update)
     sc.handleEvents()
