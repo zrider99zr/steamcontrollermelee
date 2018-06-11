@@ -28,6 +28,7 @@ from steamcontroller import SteamController
 import sys
 from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtGui import *
+import struct
 
 def _main():
     app = QApplication(sys.argv)
