@@ -57,6 +57,7 @@ def _main():
         s = ""
         for name in imu.keys():
             s += name + " = " + sci._asdict()[name] + "\n"
+        textbox.setText(s)
 
     app.processEvents()
     sc = SteamController(callback=update)
