@@ -38,11 +38,6 @@ def _main():
     textbox.resize(280,160)
 
     w.resize(320, 200)
-
-    win = pg.GraphicsWindow(title="Steam Controller")
-    win.resize(1000, 600)
-    win.nextRow()
-
     imu = {
         'gpitch' : [],
         'groll'  : [],
