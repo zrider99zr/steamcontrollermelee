@@ -30,7 +30,7 @@ from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtGui import *
 
 def _main():
-    app = QtGui.QApplication([])
+    app = QApplication(sys.argv)
     w = QWidget()
     w.setWindowTitle('Input Display')
     textbox = QLineEdit(w)
