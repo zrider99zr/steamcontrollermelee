@@ -72,7 +72,7 @@ def _main():
         run = False
         event.accept()
 
-    win.closeEvent = closeEvent
+    w.closeEvent = closeEvent
     app.processEvents()
 
     try:
