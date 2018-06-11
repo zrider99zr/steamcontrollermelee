@@ -25,52 +25,23 @@
 """Steam Controller gyro data plot"""
 
 from steamcontroller import SteamController
-from PySide import QtGui
-import pyqtgraph as pg
-import time
-import struct
-
-run = True
-times = []
+import sys
+from PyQt4.QtCore import pyqtSlot
+from PyQt4.QtGui import *
 
 def _main():
     app = QtGui.QApplication([])
+    w = QWidget()
+    w.setWindowTitle('Input Display')
+    textbox = QLineEdit(w)
+    textbox.move(20,20)
+    textbox.resize(280,160)
+
+    w.resize(320, 200)
 
     win = pg.GraphicsWindow(title="Steam Controller")
     win.resize(1000, 600)
     win.nextRow()
-
-    p1 = win.addPlot(name="plot1", title='Pitch')
-    win.nextColumn()
-
-    p2 = win.addPlot(name="plot2", title='Roll')
-    p2.setYLink("plot1")
-    win.nextColumn()
-
-    p3 = win.addPlot(name="plot3", title='Yaw')
-    p3.setYLink("plot1")
-    win.nextRow()
-
-    p4 = win.addPlot(name="plot4", title='Others', colspan=5)
-    win.nextRow()
-
-
-    p1.addLegend()
-    p1.showGrid(x=True, y=True, alpha=0.5)
-    p1.setYRange(-8000, 8000)
-
-    p2.addLegend()
-    p2.showGrid(x=True, y=True, alpha=0.5)
-    p2.setYRange(-8000, 8000)
-
-    p3.addLegend()
-    p3.showGrid(x=True, y=True, alpha=0.5)
-    p3.setYRange(-8000, 8000)
-
-    p4.addLegend()
-    p4.showGrid(x=True, y=True, alpha=0.5)
-    p4.setYRange(-32767, 32767)
-
 
     imu = {
         'gpitch' : [],
@@ -82,33 +53,13 @@ def _main():
         'q4'     : [],
     }
 
-    curves = {
-        'gpitch' : p1.plot(times, [], pen=(0, 2), name='vel'),
-        'groll'  : p2.plot(times, [], pen=(0, 2), name='vel'),
-        'gyaw'   : p3.plot(times, [], pen=(0, 2), name='vel'),
-        'q1'     : p4.plot(times, [], pen=(0, 4), name='1'),
-        'q2'     : p4.plot(times, [], pen=(1, 4), name='2'),
-        'q3'     : p4.plot(times, [], pen=(2, 4), name='3'),
-        'q4'     : p4.plot(times, [], pen=(3, 4), name='4'),
-    }
-
     def update(sc, sci):
-        global times
         if sci.status != 15361:
             return
-        cur = time.time()
-        times.append(cur)
-        times = [x for x in times if cur - x <= 10.0]
-
+        
+        s = ""
         for name in imu.keys():
-            imu[name].append(sci._asdict()[name])
-            nt = len(times)
-            ni = len(imu[name])
-            if nt < ni:
-                imu[name] = imu[name][-nt:]
-            elif nt > ni:
-                times = times[nt-ni:]
-            curves[name].setData(times, imu[name])
+            s += name + " = " + sci._asdict()[name] + "\n"
 
     app.processEvents()
     sc = SteamController(callback=update)
