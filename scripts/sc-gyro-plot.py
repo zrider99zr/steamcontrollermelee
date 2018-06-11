@@ -30,6 +30,7 @@ from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtGui import *
 import struct
 
+run = True
 def _main():
     app = QApplication(sys.argv)
     w = QWidget()
